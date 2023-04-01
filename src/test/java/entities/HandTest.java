@@ -1,11 +1,12 @@
 package entities;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HandTest {
 
@@ -34,12 +35,12 @@ class HandTest {
         Card card4 = Card.CreateCard('4', 'S');
 
         //Act
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             Hand hand = new Hand(card1, card2, card3, card4);
         });
 
         //Assert
-        Assertions.assertEquals("A hand must contain 5 cards", exception.getMessage());
+        assertEquals("A hand must contain 5 cards", exception.getMessage());
     }
 
     @Test
@@ -53,31 +54,31 @@ class HandTest {
         Card card6 = Card.CreateCard('4', 'D');
 
         //Act
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             Hand hand = new Hand(card1, card2, card3, card4, card5, card6);
         });
 
         //Assert
-        Assertions.assertEquals("A hand must contain 5 cards", exception.getMessage());
+        assertEquals("A hand must contain 5 cards", exception.getMessage());
     }
 
     @Test
     void isHighCard() {
         //Arrange
-
         Card card1 = Card.CreateCard('5', 'S');
         Card card2 = Card.CreateCard('6', 'D');
-        Card card3 = Card.CreateCard('5', 'C');
+        Card card3 = Card.CreateCard('9', 'C');
         Card card4 = Card.CreateCard('4', 'S');
         Card card5 = Card.CreateCard('3', 'H');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
 
         //Act
-        boolean actual = hand.isOnePair();
+        boolean actual = hand.isHighCard();
 
         //Assert
         assertTrue(actual);
+        assertEquals("High Card", hand.handName());
     }
 
     @Test
@@ -114,6 +115,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("One Pair", hand.handName());
     }
 
     @Test
@@ -150,6 +152,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Two Pair", hand.handName());
     }
 
     @Test
@@ -186,6 +189,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Three of a Kind", hand.handName());
     }
 
     @Test
@@ -222,6 +226,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Straight", hand.handName());
     }
 
     @Test
@@ -240,6 +245,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Straight", hand.handName());
     }
 
     @Test
@@ -276,6 +282,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Flush", hand.handName());
     }
 
     @Test
@@ -312,6 +319,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Full House", hand.handName());
     }
 
     @Test
@@ -345,6 +353,7 @@ class HandTest {
 
         //Act
         boolean actual = hand.isFourOfAKind();
+        assertEquals("Four of a Kind", hand.handName());
 
         //Assert
         assertTrue(actual);
@@ -371,11 +380,11 @@ class HandTest {
     @Test
     void isStraightFlush() {
         //Arrange
-        Card card1 = Card.CreateCard('K', 'C');
-        Card card2 = Card.CreateCard('A', 'C');
-        Card card3 = Card.CreateCard('J', 'C');
-        Card card4 = Card.CreateCard('Q', 'C');
-        Card card5 = Card.CreateCard('T', 'C');
+        Card card1 = Card.CreateCard('T', 'C');
+        Card card2 = Card.CreateCard('9', 'C');
+        Card card3 = Card.CreateCard('8', 'C');
+        Card card4 = Card.CreateCard('7', 'C');
+        Card card5 = Card.CreateCard('6', 'C');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
 
@@ -384,6 +393,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Straight Flush", hand.handName());
     }
 
     @Test
@@ -420,6 +430,7 @@ class HandTest {
 
         //Assert
         assertTrue(actual);
+        assertEquals("Royal Flush", hand.handName());
     }
 
     @Test

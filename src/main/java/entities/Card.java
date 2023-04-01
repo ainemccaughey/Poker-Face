@@ -42,6 +42,9 @@ public record Card(Rank rank, Suit suit) {
         Rank cardRank = getRankMap().get(rank);
         Suit cardSuit = getSuitMap().get(suit);
 
+        if(cardRank == null || cardSuit == null) {
+            throw new IllegalArgumentException("Invalid Card");
+        }
         return new Card(cardRank, cardSuit);
     }
 }
