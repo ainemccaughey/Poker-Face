@@ -3,7 +3,7 @@
 The Poker Face program will take a file containing a set of poker hands either as a command line parameter or via console input and determine the type of hand for each set of cards.
 
 ## Sample Data
-A sample file to run with the program can be found within the resources directory
+A sample file to run with the program can be found at the root of the project (called Hands.txt)
 
 ## Running instructions
 
