@@ -13,14 +13,15 @@ public class Hand {
     }
 
     private void initialiseHand(Card... cards) {
+        //check for invalid number of cards
         if (cards.length != 5) {
             throw new IllegalArgumentException("A hand must contain 5 cards");
         }
     }
 
     public boolean isHighCard() {
+        //high card check is no other category
         return
-
                 !isOnePair() &&
                         !isTwoPair() &&
                         !isThreeOfAKind() &&
@@ -38,12 +39,14 @@ public class Hand {
             ranks.add(card.rank().name());
         }
 
+        //if only one pair, then set size must be 4 (set unique)
         return ranks.size() == 4;
     }
 
     public boolean isTwoPair() {
         Map<String, Integer> rankCounts = getRankCounts();
 
+        //get all ranks with a card count of 2
         long twoPairCount = rankCounts.values().stream()
                 .filter(count -> count == 2).count();
 
@@ -53,18 +56,22 @@ public class Hand {
     public boolean isThreeOfAKind() {
         Map<String, Integer> rankCounts = getRankCounts();
 
+        //get all ranks with a card count of 3
         long threeOfAKindCount = rankCounts.values().stream()
                 .filter(count -> count == 3)
                 .count();
 
+        //get all ranks with a card count of 1
         long oneOfAKindCount = rankCounts.values().stream()
                 .filter(count -> count == 1)
                 .count();
 
+        //should return 1 set of 3 and two distinct cards
         return threeOfAKindCount == 1 && oneOfAKindCount == 2;
     }
 
     public boolean isStraight() {
+        // Sort cards by rank
         Card[] sortedCards = Arrays.stream(cards).sorted(Comparator.comparing(Card::rank)).toArray(Card[]::new);
 
         // Ace high check
@@ -76,7 +83,7 @@ public class Hand {
             return true;
         }
 
-        //All others incl Ace low check
+        //all others incl Ace low check
         for (int i = 0; i < sortedCards.length - 1; i++) {
             Rank current = sortedCards[i].rank();
             Rank next = sortedCards[i + 1].rank();
@@ -95,6 +102,7 @@ public class Hand {
             suits.add(card.suit().name());
         }
 
+        //set should be 1 if all suits the same
         if (suits.size() != 1) {
             return false;
         }
@@ -105,20 +113,24 @@ public class Hand {
     public boolean isFullHouse() {
         Map<String, Integer> rankCounts = getRankCounts();
 
+        //get all ranks with a card count of 3
         long threeOfAKindCount = rankCounts.values().stream()
                 .filter(count -> count == 3)
                 .count();
 
+        //get all ranks with a card count of 2
         long pairCount = rankCounts.values().stream()
                 .filter(count -> count == 2)
                 .count();
 
+        //should return 1 set of 3 and 1 pair
         return threeOfAKindCount == 1 && pairCount == 1;
     }
 
     public boolean isFourOfAKind() {
         Map<String, Integer> rankCounts = getRankCounts();
 
+        //get all ranks with a card count of 4
         long fourOfAKindCount = rankCounts.values().stream()
                 .filter(count -> count == 4)
                 .count();
@@ -131,13 +143,15 @@ public class Hand {
     }
 
     public boolean isRoyalFlush() {
-        // As isStraight() checks for card order, just need to check for existence of King
-        // Rank is Ace low, so King will be last card
+        //as isStraight() checks for card order, just need to check for existence of King
+        //rank is Ace low, so King will be last card
         return isStraight() && isFlush() && Arrays.stream(cards).anyMatch(c -> c.rank().equals(Rank.KING));
     }
 
     private Map<String, Integer> getRankCounts() {
         Map<String, Integer> rankCounts = new HashMap<>();
+
+        //create a record of the number of each rank
         for (Card card : cards) {
             rankCounts.merge(card.rank().name(), 1, Integer::sum);
         }

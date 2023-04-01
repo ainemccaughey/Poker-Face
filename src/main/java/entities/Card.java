@@ -9,6 +9,7 @@ import java.util.Map;
 // A card is immutable
 public record Card(Rank rank, Suit suit) {
 
+    //build map of character code to suit
     private static Map<Character, Suit> getSuitMap() {
         return Map.of(
                 'C', Suit.CLUB,
@@ -18,6 +19,7 @@ public record Card(Rank rank, Suit suit) {
         );
     }
 
+    //build map of characger code to rank
     private static Map<Character, Rank> getRankMap() {
         Map<Character, Rank> rankMap = new HashMap<>();
         rankMap.put('A', Rank.ACE);

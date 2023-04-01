@@ -22,6 +22,7 @@ public enum Rank {
     @Override
     public String toString() { return displayName; }
 
+    //get values of enum and increment the value by one, ensuring always within the bounds of enum
     public Rank getNextRank() {
         return values()[(this.ordinal() + 1) % values().length];
     }
