@@ -2,22 +2,22 @@ import entities.Hand;
 import entities.HandFactory;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class PokerHands {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        readTestsTxtFile("Hands.txt");
+    public static void main(String[] args) throws IOException {
+        PokerHands pokerHands = new PokerHands();
+        pokerHands.readTestsTxtFile("Hands.txt");
     }
 
-    static void readTestsTxtFile(String fileName) throws FileNotFoundException {
-        BufferedReader fileBuffer = new BufferedReader(new FileReader(fileName));
-        List<String> lines = fileBuffer.lines().collect(Collectors.toList());
-
-        for(String hand: lines) {
+    private void readTestsTxtFile(String fileName) throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String hand;
+        while ((hand = reader.readLine()) != null) {
             Hand cards = HandFactory.MakeHandFromString(hand.trim());
             System.out.println(cards + " => " + cards.handName());
         }
