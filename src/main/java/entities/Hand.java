@@ -16,18 +16,20 @@ public class Hand {
 
     private final int HAND_SIZE = 5;
 
+    private final Map<String, Integer> rankCounts;
     /**
      * Method accepts a variable collection of cards (varargs)
      *
      * @param cards array of Card
      */
     public Hand(Card... cards) {
-        this.cards = cards;
-
         //check for invalid number of cards
         if (cards.length != HAND_SIZE) {
             throw new IllegalArgumentException("A hand must contain " + HAND_SIZE + " cards");
         }
+
+        this.cards = cards;
+        this.rankCounts = getRankCounts();
     }
 
     /**
@@ -54,9 +56,8 @@ public class Hand {
      * @return boolean
      */
     public boolean isOnePair() {
-        Map<String, Integer> rankCounts = getRankCounts();
-
-        return getTwoOfAKindCount(rankCounts) == 1 && getOneOfAKindCount(rankCounts) == 3;
+        return getTwoOfAKindCount() == 1 &&
+                getOneOfAKindCount() == 3;
     }
 
 
@@ -66,9 +67,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isTwoPair() {
-        Map<String, Integer> rankCounts = getRankCounts();
-
-        return getTwoOfAKindCount(rankCounts) == 2;
+        return getTwoOfAKindCount() == 2;
     }
 
     /**
@@ -77,9 +76,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isThreeOfAKind() {
-        Map<String, Integer> rankCounts = getRankCounts();
-
-        return getThreeOfAKindCount(rankCounts) == 1 && getOneOfAKindCount(rankCounts) == 2;
+        return getThreeOfAKindCount() == 1 && getOneOfAKindCount() == 2;
     }
 
     /**
@@ -145,9 +142,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isFullHouse() {
-        Map<String, Integer> rankCounts = getRankCounts();
-
-        return getThreeOfAKindCount(rankCounts) == 1 && getTwoOfAKindCount(rankCounts) == 1;
+        return getThreeOfAKindCount() == 1 && getTwoOfAKindCount() == 1;
     }
 
     /**
@@ -156,9 +151,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isFourOfAKind() {
-        Map<String, Integer> rankCounts = getRankCounts();
-
-        return getFourOfAKindCount(rankCounts) == 1;
+        return getFourOfAKindCount() == 1;
     }
 
     /**
@@ -230,55 +223,50 @@ public class Hand {
      * Utility method
      * Get all ranks with a card count of 1
      *
-     * @param rankCounts a map containing the count of each rank
      * @return long count of one of a kind
      */
-    private long getOneOfAKindCount(Map<String, Integer> rankCounts) {
-        return getSameRankCount(rankCounts, 1);
+    private long getOneOfAKindCount() {
+        return getSameRankCount( 1);
     }
 
     /**
      * Utility method
-     * Get all rankds with a card count of 2
+     * Get all ranks with a card count of 2
      *
-     * @param rankCounts a map containing the count of each rank
      * @return long count of two of a kind
      */
-    private long getTwoOfAKindCount(Map<String, Integer> rankCounts) {
-        return getSameRankCount(rankCounts, 2);
+    private long getTwoOfAKindCount() {
+        return getSameRankCount(2);
     }
 
     /**
      * Utility method
      * Get all ranks with a card count of 3
      *
-     * @param rankCounts a map containing the count of each rank
      * @return long count of three of a kind
      */
-    private long getThreeOfAKindCount(Map<String, Integer> rankCounts) {
-        return getSameRankCount(rankCounts, 3);
+    private long getThreeOfAKindCount() {
+        return getSameRankCount( 3);
     }
 
     /**
      * Utility method
      * Get all ranks with a card count of 4
      *
-     * @param rankCounts a map containing the count of each rank
      * @return long count of four of a kind
      */
-    private long getFourOfAKindCount(Map<String, Integer> rankCounts) {
-        return getSameRankCount(rankCounts, 4);
+    private long getFourOfAKindCount() {
+        return getSameRankCount(4);
     }
 
     /**
      * Utility method
      * A generic method that will get all ranks with a card count of sameCount
      *
-     * @param rankCounts a map containing the count of each rank
      * @param sameCount the count to check for
      * @return long number of cards with given count
      */
-    private long getSameRankCount(Map<String, Integer> rankCounts, int sameCount) {
+    private long getSameRankCount( int sameCount) {
         return rankCounts.values().stream()
                 .filter(count -> count == sameCount)
                 .count();
