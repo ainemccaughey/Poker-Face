@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CardTest {
 
     @Test
-    void makeCard_validCard() {
+    void createCard_validCard() {
         //Arrange
         char rank = 'T';
         char suit = 'C';
@@ -22,15 +22,13 @@ public class CardTest {
     }
 
     @Test
-    void makeCard_invalidCard() {
+    void createCard_invalidCard() {
         //Arrange
          char rank = 'T';
          char suit = 'T';
 
         //Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Card card = Card.CreateCard(rank, suit);
-        });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Card.CreateCard(rank, suit));
 
         //Assert
         assertEquals("Invalid Card", exception.getMessage());

@@ -6,10 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
+/**
+ * A driver for the poker Hand class
+ *
+ * @author aine mccaughey
+ * @version 1.0
+ */
 public class PokerHands {
-
+    /**
+     *
+     * @param args accepts a filename for a text file containing poker hands
+     * @throws FileNotFoundException when file given cannot be found
+     */
     public static void main(String[] args) throws FileNotFoundException {
         String filename = null;
 
@@ -31,9 +40,15 @@ public class PokerHands {
         readTestsTxtFile(filename);
     }
 
+    /**
+     * Reads the given file from the filesystem and determines the hands within each line of the file
+     *
+     * @param fileName String
+     * @throws FileNotFoundException when file given cannot be found
+     */
     static void readTestsTxtFile(String fileName) throws FileNotFoundException {
         BufferedReader fileBuffer = new BufferedReader(new FileReader(fileName));
-        List<String> lines = fileBuffer.lines().collect(Collectors.toList());
+        List<String> lines = fileBuffer.lines().toList();
 
         //read each line from file and make a card
         for(String hand: lines) {

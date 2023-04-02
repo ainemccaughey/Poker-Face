@@ -6,10 +6,19 @@ import enums.Suit;
 import java.util.HashMap;
 import java.util.Map;
 
-// A card is immutable
+/**
+ * This record represents a card, and contains functionality to create a card and definitions of what makes up a card (suit and rank)
+ *
+ * @author aine mccaughey
+ * @version 1.0
+ */
 public record Card(Rank rank, Suit suit) {
 
-    //build map of character code to suit
+    /**
+     * Build map of character code to suit
+     *
+     * @return Map<Character, Suit> suitMap
+     */
     private static Map<Character, Suit> getSuitMap() {
         return Map.of(
                 'C', Suit.CLUB,
@@ -19,7 +28,11 @@ public record Card(Rank rank, Suit suit) {
         );
     }
 
-    //build map of characger code to rank
+    /**
+     * Build map of character code to rank
+     *
+     * @return Map<Character, Rank> rankMap
+     */
     private static Map<Character, Rank> getRankMap() {
         Map<Character, Rank> rankMap = new HashMap<>();
         rankMap.put('A', Rank.ACE);
@@ -38,6 +51,14 @@ public record Card(Rank rank, Suit suit) {
 
         return rankMap;
     }
+
+    /**
+     * Helper method to allow for easy creation of a card
+     *
+     * @param rank char
+     * @param suit char
+     * @return Card
+     */
     public static Card CreateCard(char rank, char suit) {
         Rank cardRank = getRankMap().get(rank);
         Suit cardSuit = getSuitMap().get(suit);

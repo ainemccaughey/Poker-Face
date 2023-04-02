@@ -35,9 +35,7 @@ class HandTest {
         Card card4 = Card.CreateCard('4', 'S');
 
         //Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Hand hand = new Hand(card1, card2, card3, card4);
-        });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new Hand(card1, card2, card3, card4));
 
         //Assert
         assertEquals("A hand must contain 5 cards", exception.getMessage());
@@ -54,9 +52,7 @@ class HandTest {
         Card card6 = Card.CreateCard('4', 'D');
 
         //Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Hand hand = new Hand(card1, card2, card3, card4, card5, card6);
-        });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new Hand(card1, card2, card3, card4, card5, card6));
 
         //Assert
         assertEquals("A hand must contain 5 cards", exception.getMessage());
@@ -260,7 +256,25 @@ class HandTest {
         Hand hand = new Hand(card1, card2, card3, card4, card5);
 
         //Act
-        boolean actual = hand.isThreeOfAKind();
+        boolean actual = hand.isStraight();
+
+        //Assert
+        assertFalse(actual);
+    }
+
+    @Test
+    void isNotStraight_when_allSameSuit() {
+        //Arrange
+        Card card1 = Card.CreateCard('A', 'D');
+        Card card2 = Card.CreateCard('2', 'D');
+        Card card3 = Card.CreateCard('3', 'D');
+        Card card4 = Card.CreateCard('4', 'D');
+        Card card5 = Card.CreateCard('5', 'D');
+
+        Hand hand = new Hand(card1, card2, card3, card4, card5);
+
+        //Act
+        boolean actual = hand.isStraight();
 
         //Assert
         assertFalse(actual);
