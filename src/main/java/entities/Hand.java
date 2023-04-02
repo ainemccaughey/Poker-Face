@@ -89,33 +89,6 @@ public class Hand {
     }
 
     /**
-     * A straight check that does not check for flush
-     *
-     * @return boolean
-     */
-    public boolean isLooseStraight() {
-        //to test for a straight we first sort the cards
-        Card[] sortedCards = getSortedCards();
-
-        //check cards in sequence
-        for (int i = 0; i < sortedCards.length - 1; i++) {
-            Rank current = sortedCards[i].rank();
-            Rank next = sortedCards[i + 1].rank();
-
-            //check that current and next are not ace/two or ace/ten
-            if( !(current.equals(Rank.ACE) && (next.equals(Rank.TWO) || next.equals(Rank.TEN)) )) {
-
-                //check if current cards next rank does not equal the next rank, in which case cannot be a straight
-                if (current.getNextRank() != next) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * A flush contains cards all the same suit
      *
      * @return boolean
@@ -195,6 +168,33 @@ public class Hand {
         return Arrays.stream(cards)
                 .map(c -> c.rank().toString() + c.suit().toString() )
                 .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * A straight check that does not check for flush
+     *
+     * @return boolean
+     */
+    private boolean isLooseStraight() {
+        //to test for a straight we first sort the cards
+        Card[] sortedCards = getSortedCards();
+
+        //check cards in sequence
+        for (int i = 0; i < sortedCards.length - 1; i++) {
+            Rank current = sortedCards[i].rank();
+            Rank next = sortedCards[i + 1].rank();
+
+            //check that current and next are not ace/two or ace/ten
+            if( !(current.equals(Rank.ACE) && (next.equals(Rank.TWO) || next.equals(Rank.TEN)) )) {
+
+                //check if current cards next rank does not equal the next rank, in which case cannot be a straight
+                if (current.getNextRank() != next) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
