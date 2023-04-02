@@ -97,23 +97,18 @@ public class Hand {
         //to test for a straight we first sort the cards
         Card[] sortedCards = getSortedCards();
 
-        //ace high check
-        if (sortedCards[0].rank().equals(Rank.ACE) &&
-                sortedCards[1].rank().equals(Rank.TEN) &&
-                sortedCards[2].rank().equals(Rank.JACK) &&
-                sortedCards[3].rank().equals(Rank.QUEEN) &&
-                sortedCards[4].rank().equals(Rank.KING)) {
-            return true;
-        }
-
-        //all others incl Ace low check
+        //check cards in sequence
         for (int i = 0; i < sortedCards.length - 1; i++) {
             Rank current = sortedCards[i].rank();
             Rank next = sortedCards[i + 1].rank();
 
-            //if current cards next rank does not equal the next rank, cannot be a straight
-            if (current.getNextRank() != next) {
-                return false;
+            //check that current and next are not ace/two or ace/ten
+            if( !(current.equals(Rank.ACE) && (next.equals(Rank.TWO) || next.equals(Rank.TEN)) )) {
+
+                //check if current cards next rank does not equal the next rank, in which case cannot be a straight
+                if (current.getNextRank() != next) {
+                    return false;
+                }
             }
         }
 
