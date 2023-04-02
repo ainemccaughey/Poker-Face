@@ -136,6 +136,27 @@ public class Hand {
         return isStraight() && isFlush() && Arrays.stream(cards).anyMatch(c -> c.rank().equals(Rank.KING));
     }
 
+    public String handName() {
+        return isRoyalFlush() ? "Royal Flush" :
+                isStraightFlush() ? "Straight Flush" :
+                        isFourOfAKind() ? "Four of a Kind" :
+                                isFullHouse() ? "Full House" :
+                                        isFlush() ? "Flush" :
+                                                isStraight() ? "Straight" :
+                                                        isThreeOfAKind() ? "Three of a Kind" :
+                                                                isTwoPair() ? "Two Pair" :
+                                                                        isOnePair() ? "One Pair" :
+                                                                                "High Card";
+    }
+
+    public String toString() {
+        StringBuffer output = new StringBuffer();
+        for(Card card: cards) {
+            output.append(" " + card.rank() + card.suit());
+        }
+        return output.toString();
+    }
+
     private Map<String, Integer> getRankCounts() {
         Map<String, Integer> rankCounts = new HashMap<>();
 
@@ -159,26 +180,5 @@ public class Hand {
         return rankCounts.values().stream()
                 .filter(count -> count == 2)
                 .count();
-    }
-
-    public String handName() {
-        return isRoyalFlush() ? "Royal Flush" :
-                isStraightFlush() ? "Straight Flush" :
-                        isFourOfAKind() ? "Four of a Kind" :
-                                isFullHouse() ? "Full House" :
-                                        isFlush() ? "Flush" :
-                                                isStraight() ? "Straight" :
-                                                        isThreeOfAKind() ? "Three of a Kind" :
-                                                                isTwoPair() ? "Two Pair" :
-                                                                        isOnePair() ? "One Pair" :
-                                                                                "High Card";
-    }
-
-    public String toString() {
-        StringBuffer output = new StringBuffer();
-        for(Card card: cards) {
-            output.append(" " + card.rank() + card.suit());
-        }
-        return output.toString();
     }
 }
