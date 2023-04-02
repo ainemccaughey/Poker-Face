@@ -5,7 +5,7 @@ import enums.Rank;
 import java.util.*;
 
 public class Hand {
-    private Card[] cards;
+    private final Card[] cards;
 
     public Hand(Card... cards) {
         this.cards = cards;
@@ -39,27 +39,23 @@ public class Hand {
             ranks.add(card.rank().name());
         }
 
-        //if only one pair, then set size must be 4 (set unique)
+        //if only one pair, then set size must be 4
         return ranks.size() == 4;
     }
 
     public boolean isTwoPair() {
         Map<String, Integer> rankCounts = getRankCounts();
 
-        //get all ranks with a card count of 2
-        long twoPairCount = rankCounts.values().stream()
-                .filter(count -> count == 2).count();
+        long pairCount = getPairCount(rankCounts);
 
-        return twoPairCount == 2;
+        //should return two sets of pairs
+        return pairCount == 2;
     }
 
     public boolean isThreeOfAKind() {
         Map<String, Integer> rankCounts = getRankCounts();
 
-        //get all ranks with a card count of 3
-        long threeOfAKindCount = rankCounts.values().stream()
-                .filter(count -> count == 3)
-                .count();
+        long threeOfAKindCount = getThreeOfAKindCount(rankCounts);
 
         //get all ranks with a card count of 1
         long oneOfAKindCount = rankCounts.values().stream()
@@ -88,6 +84,7 @@ public class Hand {
             Rank current = sortedCards[i].rank();
             Rank next = sortedCards[i + 1].rank();
 
+            //if current cards next rank does not equal the next rank, cannot be a straight
             if (current.getNextRank() != next) {
                 return false;
             }
@@ -103,25 +100,15 @@ public class Hand {
         }
 
         //set should be 1 if all suits the same
-        if (suits.size() != 1) {
-            return false;
-        }
-
-        return true;
+        return suits.size() == 1;
     }
 
     public boolean isFullHouse() {
         Map<String, Integer> rankCounts = getRankCounts();
 
-        //get all ranks with a card count of 3
-        long threeOfAKindCount = rankCounts.values().stream()
-                .filter(count -> count == 3)
-                .count();
+        long threeOfAKindCount = getThreeOfAKindCount(rankCounts);
 
-        //get all ranks with a card count of 2
-        long pairCount = rankCounts.values().stream()
-                .filter(count -> count == 2)
-                .count();
+        long pairCount = getPairCount(rankCounts);
 
         //should return 1 set of 3 and 1 pair
         return threeOfAKindCount == 1 && pairCount == 1;
@@ -135,6 +122,7 @@ public class Hand {
                 .filter(count -> count == 4)
                 .count();
 
+        //should return 1 set of 4
         return fourOfAKindCount == 1;
     }
 
@@ -157,6 +145,20 @@ public class Hand {
         }
 
         return rankCounts;
+    }
+
+    private long getThreeOfAKindCount(Map<String, Integer> rankCounts) {
+        //get all ranks with a card count of 3
+        return rankCounts.values().stream()
+                .filter(count -> count == 3)
+                .count();
+    }
+
+    private long getPairCount(Map<String, Integer> rankCounts) {
+        //get all ranks with a card count of 2
+        return rankCounts.values().stream()
+                .filter(count -> count == 2)
+                .count();
     }
 
     public String handName() {
