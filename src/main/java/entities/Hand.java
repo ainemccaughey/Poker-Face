@@ -28,6 +28,13 @@ public class Hand {
             throw new IllegalArgumentException("A hand must contain " + HAND_SIZE + " cards");
         }
 
+        // check for duplicate cards
+        var countCards = Arrays.stream(cards).collect(Collectors.groupingBy(c -> c)).size();
+        if ( countCards != HAND_SIZE)
+        {
+            throw new IllegalArgumentException("Duplicate Card In Hand");
+        }
+
         this.cards = cards;
         this.rankCounts = getRankCounts();
     }

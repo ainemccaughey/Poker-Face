@@ -42,6 +42,22 @@ class HandTest {
     }
 
     @Test
+    void isInValidDuplicateCardHand() {
+        //Arrange
+        Card card1 = Card.CreateCard('5', 'S');
+        Card card2 = Card.CreateCard('6', 'D');
+        Card card3 = Card.CreateCard('5', 'S');
+        Card card4 = Card.CreateCard('4', 'S');
+        Card card5 = Card.CreateCard('3', 'S');
+
+        //Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new Hand(card1, card2, card3, card4, card5));
+
+        //Assert
+        assertEquals("Duplicate Card In Hand", exception.getMessage());
+    }
+
+    @Test
     void isInValidSixCardHand() {
         //Arrange
         Card card1 = Card.CreateCard('5', 'S');
@@ -284,7 +300,7 @@ class HandTest {
     void isFlush() {
         //Arrange
         Card card1 = Card.CreateCard('A', 'S');
-        Card card2 = Card.CreateCard('A', 'S');
+        Card card2 = Card.CreateCard('4', 'S');
         Card card3 = Card.CreateCard('6', 'S');
         Card card4 = Card.CreateCard('7', 'S');
         Card card5 = Card.CreateCard('3', 'S');
@@ -321,9 +337,9 @@ class HandTest {
     void isFullHouse() {
         //Arrange
         Card card1 = Card.CreateCard('A', 'S');
-        Card card2 = Card.CreateCard('A', 'S');
-        Card card3 = Card.CreateCard('A', 'S');
-        Card card4 = Card.CreateCard('7', 'S');
+        Card card2 = Card.CreateCard('A', 'C');
+        Card card3 = Card.CreateCard('A', 'D');
+        Card card4 = Card.CreateCard('7', 'H');
         Card card5 = Card.CreateCard('7', 'S');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
@@ -358,9 +374,9 @@ class HandTest {
     void isFourOfAKind() {
         //Arrange
         Card card1 = Card.CreateCard('A', 'S');
-        Card card2 = Card.CreateCard('A', 'S');
-        Card card3 = Card.CreateCard('A', 'S');
-        Card card4 = Card.CreateCard('A', 'S');
+        Card card2 = Card.CreateCard('A', 'C');
+        Card card3 = Card.CreateCard('A', 'H');
+        Card card4 = Card.CreateCard('A', 'D');
         Card card5 = Card.CreateCard('7', 'S');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
@@ -414,9 +430,9 @@ class HandTest {
     void isNotStraightFlush() {
         //Arrange
         Card card1 = Card.CreateCard('A', 'S');
-        Card card2 = Card.CreateCard('A', 'S');
-        Card card3 = Card.CreateCard('A', 'S');
-        Card card4 = Card.CreateCard('A', 'S');
+        Card card2 = Card.CreateCard('T', 'S');
+        Card card3 = Card.CreateCard('5', 'S');
+        Card card4 = Card.CreateCard('6', 'S');
         Card card5 = Card.CreateCard('7', 'S');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
@@ -469,9 +485,9 @@ class HandTest {
     void isNotRoyalFlushMatchedSuits() {
         //Arrange
         Card card1 = Card.CreateCard('5', 'D');
-        Card card2 = Card.CreateCard('5', 'D');
+        Card card2 = Card.CreateCard('2', 'D');
         Card card3 = Card.CreateCard('7', 'D');
-        Card card4 = Card.CreateCard('7', 'D');
+        Card card4 = Card.CreateCard('6', 'D');
         Card card5 = Card.CreateCard('3', 'D');
 
         Hand hand = new Hand(card1, card2, card3, card4, card5);
