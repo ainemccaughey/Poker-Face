@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Hand {
-    private final Card[] cards;
+    private final Set<Card> cards;
 
     private final int HAND_SIZE = 5;
 
@@ -29,13 +29,12 @@ public class Hand {
         }
 
         // check for duplicate cards
-        var countCards = Arrays.stream(cards).collect(Collectors.groupingBy(c -> c)).size();
-        if ( countCards != HAND_SIZE)
+        this.cards = new HashSet<Card>(Arrays.asList(cards));
+        if (this.cards.size() != HAND_SIZE)
         {
             throw new IllegalArgumentException("Duplicate Card In Hand");
         }
 
-        this.cards = cards;
         this.rankCounts = getRankCounts();
     }
 
@@ -145,7 +144,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isRoyalFlush() {
-        return isLooseStraight() && isFlush() && Arrays.stream(cards).anyMatch(c -> c.rank().equals(Rank.KING));
+        return isLooseStraight() && isFlush() && cards.stream().anyMatch(c -> c.rank().equals(Rank.KING));
     }
 
     /**
@@ -172,7 +171,7 @@ public class Hand {
      * @return String coded representation of hand
      */
     public String toString() {
-        return Arrays.stream(cards)
+        return cards.stream()
                 .map(c -> c.rank().toString() + c.suit().toString() )
                 .collect(Collectors.joining(" "));
     }
@@ -281,6 +280,6 @@ public class Hand {
      * @return Card[] cards sorted
      */
     private Card[] getSortedCards() {
-        return Arrays.stream(cards).sorted(Comparator.comparing(Card::rank)).toArray(Card[]::new);
+        return cards.stream().sorted(Comparator.comparing(Card::rank)).toArray(Card[]::new);
     }
 }
