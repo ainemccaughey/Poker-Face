@@ -144,7 +144,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isRoyalFlush() {
-        return isLooseStraight() && isFlush() && cards.stream().anyMatch(c -> c.rank().equals(Rank.KING));
+        return isLooseStraight() && isFlush() && handContains(Rank.KING);
     }
 
     /**
@@ -281,5 +281,16 @@ public class Hand {
      */
     private Card[] getSortedCards() {
         return cards.stream().sorted(Comparator.comparing(Card::rank)).toArray(Card[]::new);
+    }
+
+    /**
+     * Utility method
+     * Checks for existence of given card rank in hand
+     *
+     * @param rank the rank of the card to check
+     * @return boolean
+     */
+    private boolean handContains(Rank rank) {
+        return cards.stream().anyMatch(c -> c.rank().equals(rank));
     }
 }
