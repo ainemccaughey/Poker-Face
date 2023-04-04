@@ -498,4 +498,22 @@ class HandTest {
         //Assert
         assertFalse(actual);
     }
+
+    @Test
+    void isNotRoyalFlushWithoutAce() {
+        //Arrange
+        Card card1 = Card.CreateCard('9', 'D');
+        Card card2 = Card.CreateCard('T', 'D');
+        Card card3 = Card.CreateCard('J', 'D');
+        Card card4 = Card.CreateCard('Q', 'D');
+        Card card5 = Card.CreateCard('K', 'D');
+
+        Hand hand = new Hand(card1, card2, card3, card4, card5);
+
+        //Act
+        boolean actual = hand.isRoyalFlush();
+
+        //Assert
+        assertFalse(actual);
+    }
 }

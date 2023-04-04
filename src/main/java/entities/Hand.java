@@ -144,7 +144,7 @@ public class Hand {
      * @return boolean
      */
     public boolean isRoyalFlush() {
-        return isLooseStraight() && isFlush() && handContains(Rank.KING);
+        return isLooseStraight() && isFlush() && handContains(Rank.KING) && handContains(Rank.ACE);
     }
 
     /**
